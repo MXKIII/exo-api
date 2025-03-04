@@ -6,10 +6,15 @@ const userRouter = Router()
 userRouter.get('/users/:id', (req,res)=>{
     const userID = req.params.id
     const userByID= users.find(user => user.id == parseInt(userID))
+    try{
     if(!userByID){
         return res.status(404).json ({message: 'user not found'})
     }
     return res.json(userByID)
+    }
+    catch(err){
+        console.log(err)
+   }
 })
 
 userRouter.post('/users', (req,res)=>{
@@ -22,13 +27,19 @@ userRouter.post('/users', (req,res)=>{
         address, 
         hobbies
     }
+    try{
     users.push(newuser)
     return res.status(201).json(newuser)
+    }
+    catch(err){
+        console.log(err)
+   }
 })
 
 userRouter.put('/users/:id', (req,res)=>{
     const {id} = req.params
     const {firstName, lastName, telephone, address, hobbies} = req.body
+    try{
     let userByID= users.find(user => user.id == parseInt(id))
     if(!userByID){
         return res.status(404).json ({message: 'user not found'})
@@ -42,6 +53,10 @@ userRouter.put('/users/:id', (req,res)=>{
         hobbies: hobbies || userByID.hobbies,
     }
     return res.status(201).json(userByID)
+    }
+    catch(err){
+        console.log(err)
+   }
 })
 
 userRouter.delete('/users/:id', (req,res)=>{
